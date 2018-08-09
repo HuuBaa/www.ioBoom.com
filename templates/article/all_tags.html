@@ -1,0 +1,40 @@
+{% extends 'article/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+全部文章
+{% endblock %}
+
+{% block active-3 %}
+active
+{% endblock %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" id="bread">
+    <ol class="breadcrumb ">
+        <li class="breadcrumb-item"><a href="/">主页</a></li>
+        <li class="breadcrumb-item active" aria-current="page">标签</li>
+    </ol>
+</nav>
+
+{% if all_tags %}
+<ul class="list-group" id="tags">
+    <li class="list-group-item disabled">所有分类（{{all_tags|length}}）</li>
+    {% for tag in all_tags%}
+
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'article:tag_articles' tag.slug %}"> {{tag.chinese_name}}
+        </a>
+    <span class="badge badge-info badge-pill">{{tag.articles.count}} 篇</span>
+    </li>
+
+    {% endfor%}
+
+</ul>
+
+{% else %}
+<p> 没有标签</p>
+{% endif %}
+
+{% endblock %}

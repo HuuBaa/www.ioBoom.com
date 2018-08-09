@@ -1,0 +1,45 @@
+{% extends 'article/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+编辑个人信息
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-3">
+        {% if user.avatar == "avatar/default.png" and user.get_avatar_url %}
+        <img class="align-self-sm-start mr-3 rounded mt-1" src="{{user.get_avatar_url}}"
+             width="148" height="148" alt="头像">
+        {% else %}
+        <img class="align-self-sm-start mr-3 rounded mt-1" src="{{MEDIA_URL}}{{user.avatar}}"
+             width="148" height="148" alt="头像">
+        {% endif %}
+        <br>
+        <h1>{{user.username}}</h1>
+        <div>
+             <p style="word-break: break-all">{{user.email}}</p>
+        </div>
+
+
+    </div>
+    <div class="col-lg-9">
+        <div class="form-wrapper">
+            <form method="post" action="." enctype="multipart/form-data">
+                {% if form.errors %}
+                {% include "article/partials/errors.html" %}
+                {% endif %}
+                {% csrf_token %}
+                {% for field in form %}
+                {% include "article/partials/field.html" %}
+                {% endfor %}
+                <div class="button-wrapper submit">
+                    <input type="submit" value="修改资料" class="form-control btn btn-success" >
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

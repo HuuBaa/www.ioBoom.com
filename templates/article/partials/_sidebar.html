@@ -1,0 +1,36 @@
+<div class="card w-100 mb-4">
+    <div class="card-body">
+        <h6 class="card-title font-weight-bold">标签云</h6>
+        <hr>
+        {% for tag in tags_cloud %}
+        <a href="{% url 'article:tag_articles' tag.slug %}"><span class="badge badge-pill badge-{{tag.cls_msg}} ">{{tag.chinese_name}}</span></a>
+        {% endfor %}
+
+    </div>
+</div>
+<div class="card w-100 mb-4">
+    <div class="card-body">
+        <h6 class="card-title font-weight-bold">最近文章</h6>
+        <hr>
+        <ul class="pl-4" style="list-style-type: decimal; color: goldenrod" id="latest_articles">
+            {% if latest_articles %}
+            {% for a in latest_articles %}
+            <li><a href="{% url 'article:article_detail' a.id %}">{{a.title}}</a></li>
+            {% endfor %}
+            {% else %}
+            <p>暂无</p>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+
+<ul class="list-group" id="my_website">
+    <li class="list-group-item disabled">常用网站</li>
+    <li class="list-group-item"><a href="https://blog.csdn.net/qq_35037977" target="_blank">Huu的CSDN博客</a></li>
+    <li class="list-group-item"><a href="https://github.com/HuuBaa" target="_blank">GitHub</a></li>
+    <li class="list-group-item"><a href="https://www.zhihu.com/" target="_blank">知乎</a></li>
+    <li class="list-group-item"><a href="https://www.v2ex.com/" target="_blank">V2EX</a></li>
+    <li class="list-group-item"><a href="https://regexper.com/" target="_blank">Regexper</a></li>
+</ul>
+

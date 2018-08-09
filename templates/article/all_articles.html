@@ -1,0 +1,30 @@
+{% extends 'article/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+全部文章
+{% endblock %}
+
+{% block active-2 %}
+active
+{% endblock %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" id="bread">
+    <ol class="breadcrumb ">
+        <li class="breadcrumb-item"><a href="/">主页</a></li>
+        <li class="breadcrumb-item active" aria-current="page">全部文章（共{{page.paginator.count}}篇）</li>
+    </ol>
+</nav>
+
+{% if articles %}
+    {% include "article/partials/_article_list.html" %}
+    {% include 'article/partials/_pagination.html'%}
+{% else %}
+<p> 没有文章</p>
+{% endif %}
+
+{% endblock %}
+
+

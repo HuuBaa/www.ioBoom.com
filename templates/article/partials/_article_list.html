@@ -1,0 +1,37 @@
+
+
+<ul class="list-unstyled">
+    {% for article in articles %}
+    <li class="media px-3 py-3 mb-4 shadow" style="background-color: white">
+        <img class="align-self-center mr-3 d-none d-lg-block" src="{{MEDIA_URL}}{{article.picture}}" width="180"
+             alt="Generic placeholder image">
+
+        <div class="media-body" style="word-break: break-all">
+
+            <span><i class="fa fa-user" aria-hidden="true"></i> &nbsp;{{article.author.username}}</span>
+            &nbsp;
+            <span class="small"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{article.post_time|date}}</span>
+            &nbsp;
+            {% for tag in article.tags.all %}
+            <a href="{% url 'article:tag_articles' tag.slug %}"><span class="badge-info badge py-1"><i class="fa fa-book"></i>&nbsp;{{tag.chinese_name}}</span></a>
+            {% endfor %}
+
+            <hr>
+
+            <a class="text-info font-weight-bold " href="{% url 'article:article_detail' article.id %}" style="text-decoration: none;">
+                <h5 class="mt-0 mb-1 article-title">{{article.title}}</h5>
+            </a>
+
+            <p class="mb-0 text-muted">{{article.summary}}</p>
+
+            <br>
+
+            <div class="float-right">
+                <span><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;{{article.views}}</span>&nbsp;
+                <span><a href="{% url 'article:article_detail' article.id %}#comment" style="text-decoration: none;color: black"><i class="fa fa-comment" aria-hidden="true"></i>&nbsp;{{article.get_comment_count}}</a></span>
+            </div>
+
+        </div>
+    </li>
+    {% endfor %}
+</ul>

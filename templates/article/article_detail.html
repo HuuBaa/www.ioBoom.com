@@ -1,0 +1,212 @@
+{% extends 'article/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+文章 | {{article.title}}
+{% endblock %}
+
+
+{% block content %}
+
+<nav aria-label="breadcrumb" id="bread">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">主页</a></li>
+
+        <li class="breadcrumb-item"><a href="{% url 'article:tag_articles' article.tags.first.slug %}">{{article.tags.first.chinese_name}}</a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">{{article.title}}</li>
+    </ol>
+</nav>
+
+
+<div class="card rounded-0 border-0" id="article">
+    <div class="card-body">
+        <h3 class="text-center text-info">{{article.title}}</h3>
+    </div>
+    <hr>
+    <div class="text-center small">
+        <span class="mx-2">{{article.post_time}}</span>
+        <span class="mx-2">阅读 {{article.views}}</span>
+        <span class="mx-2">评论 {{article.get_comment_count}}</span>
+    </div>
+    <div id="article-body" class="mx-3 my-4">
+        {{article.content|safe}}
+
+    </div>
+</div>
+<div class="mt-5" id="comment">
+    {% if user.is_authenticated %}
+    <form action="{%  url 'article:article_comment' article.id %}" method="post">
+        <h4>发表评论</h4>
+        <hr>
+
+        {% csrf_token %}
+        <div class="form-group">
+            <textarea class="form-control" name="content" rows="3" required maxlength="128"></textarea>
+        </div>
+        <div class="form-group text-right">
+
+            <button class="btn btn-info " type="submit">
+                发表评论 <i class="fa fa-comment-o"></i>
+            </button>
+        </div>
+
+    </form>
+
+    {% else %}
+    <div class="card pt-2 pb-1">
+        <h5 class=text-center><a href="{% url 'account_login' %}?next={{request.path}}">登录</a> 后可以发表评论</h5>
+    </div>
+
+    {% endif %}
+</div>
+
+
+<div class="card rounded-0 border-0 mt-3">
+    <h5 class="pt-4 pb-0 pl-4">{{comments.count}}条评论</h5>
+    <hr>
+
+    {% if comments %}
+    {% for c in comments %}
+    <div class="media  mt-1 px-3 ">
+        {% if c.author.avatar == "avatar/default.png" and c.author.get_avatar_url %}
+        <img class="align-self-sm-start mr-3 rounded mt-1" src="{{c.author.get_avatar_url}}"
+             width="48" height="48" alt="头像">
+        {% else %}
+        <img class="align-self-sm-start mr-3 rounded mt-1" src="{{MEDIA_URL}}{{c.author.avatar}}"
+             width="48" height="48" alt="头像">
+        {% endif %}
+        <div class="media-body">
+            <div>
+                <a href="{% url 'profile' c.author.id %}" style="text-decoration: none;color: #17a2b8;">
+                    <span class="font-weight-bold">{{c.author.username}}</span>
+                </a>
+                <span class="text-muted small">
+                    #{{forloop.counter}}楼&nbsp;&nbsp;
+                    {{c.post_time|date:"y年m月d日 H:i"}}</span>
+            </div>
+            <p style="word-break: break-all">{{c.content}}</p>
+
+            {% if user.is_authenticated %}
+            {% ifnotequal user c.author %}
+            <p class="small text-right">
+                <a data-toggle="collapse" href="#com_coll_{{c.id}}"
+                   style="text-decoration: none;color: gray;">
+                    回复</a>
+            </p>
+
+            <div id="com_coll_{{c.id}}" class="collapse">
+                <form action="{%  url 'article:article_sub_comment' article.id %}" method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <textarea class="form-control" name="content" rows="3" required maxlength="128"></textarea>
+                    </div>
+
+                    <input type="hidden" name="reply_to_id" value="{{c.author.id}}">
+                    <input type="hidden" name="parent_comment_id" value="{{c.id}}">
+                    <div class="form-group text-right">
+
+                        <button class="btn btn-info " type="submit">
+                            发表评论 <i class="fa fa-comment-o"></i>
+                        </button>
+                        &nbsp;
+                        <a data-toggle="collapse" class="btn btn-danger" href="#com_coll_{{c.id}}"
+                           style="text-decoration: none;">
+                            取消</a></p>
+                    </div>
+
+                </form>
+            </div>
+            {% endifnotequal %}
+            {% endif %}
+            <!--二级评论-->
+            {% if c.sub_comments %}
+            {% for sub_c in c.sub_comments.all %}
+            <div class="media  mt-1 px-3 ">
+                {% if sub_c.author.avatar == "avatar/default.png" and sub_c.author.get_avatar_url %}
+                <img class="align-self-sm-start mr-3 rounded mt-1"
+                     src="{{sub_c.author.get_avatar_url}}"
+                     width="48" height="48" alt="头像">
+                {% else %}
+                <img class="align-self-sm-start mr-3 rounded mt-1" src="{{MEDIA_URL}}{{sub_c.author.avatar}}"
+                     width="48" height="48" alt="头像">
+                {% endif %}
+                <div class="media-body">
+                    <div>
+                        <a href="{% url 'profile' c.author.id %}" style="text-decoration: none; color: #17a2b8;">
+                            <strong>{{sub_c.author.username}}</strong>
+                        </a>
+                        <span class="text-muted small">
+                        <i class="fa fa-mail-forward"></i>
+                        </span>
+                        <span class="font-weight-bold text-muted">
+                            {{sub_c.reply_to.username}}
+                        </span>
+
+                        &nbsp;&nbsp;
+                        <span class="text-muted small">
+                        {{sub_c.post_time|date:"y年m月d日 H:i"}}
+                        </span>
+
+                    </div>
+
+                    <p style="word-break: break-all">{{sub_c.content}}</p>
+                    {% if user.is_authenticated %}
+                    {% ifnotequal user sub_c.author %}
+                    <p class="small text-right">
+                        <a data-toggle="collapse" href="#sub_com_coll_{{sub_c.id}}"
+                           style="text-decoration: none;color: gray;">回复</a>
+                    </p>
+
+                    <div id="sub_com_coll_{{sub_c.id}}" class="collapse">
+                        <form action="{%  url 'article:article_sub_comment' article.id %}" method="post">
+
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <textarea class="form-control" name="content" rows="3" required
+                                          maxlength="128"></textarea>
+                            </div>
+
+                            <input type="hidden" name="reply_to_id" value="{{sub_c.author.id}}">
+                            <input type="hidden" name="parent_comment_id" value="{{c.id}}">
+                            <div class="form-group text-right">
+
+                                <button class="btn btn-info " type="submit">
+                                    发表评论 <i class="fa fa-comment-o"></i>
+                                </button>
+                                &nbsp;
+                                <a data-toggle="collapse" class="btn btn-danger" href="#sub_com_coll_{{sub_c.id}}"
+                                   style="text-decoration: none;">
+                                    取消</a></p>
+                            </div>
+
+                        </form>
+                    </div>
+                    {% endifnotequal %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!--二级评论结束-->
+        </div>
+    </div>
+
+    {% endfor%}
+    {% else %}
+    <p class="pt-4 pb-0 pl-4">暂无评论</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block sidebar %}
+<div id="toc" class="mb-4 position-fixed">
+    {{toc|safe}}
+</div>
+{% endblock %}

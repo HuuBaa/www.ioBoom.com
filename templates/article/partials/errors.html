@@ -1,0 +1,14 @@
+{% if form.errors and form.non_field_errors %}
+
+<div class="alert alert-danger alert-dismissible fade show pl-0" role="alert">
+    <ul class="my-0">
+        {{ form.non_field_errors|unordered_list }}
+    </ul>
+
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+{% endif %}
+
