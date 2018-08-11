@@ -5,9 +5,7 @@
 {{c_user.username}}的资料
 {% endblock %}
 
-
 {% block content %}
-
 
 <div class="row">
     <div class="col-lg-3">
@@ -19,11 +17,14 @@
              width="148" height="148" alt="头像">
         {% endif %}
 
-        <h1>{{c_user.username}}</h1>
+        <p>{{c_user.username}}</p>
         {% ifequal user c_user %}
         <a href="{% url 'profile_edit' %}" class="btn btn-success">编辑个人资料</a>
 
         <a href="{% url 'account_change_password' %}" class="btn btn-primary mt-2">修改账户密码</a>
+
+        <a href="{% url 'account_email' %}" class="btn btn-primary mt-2">管理E-mail地址</a>
+        <a href="{% url 'socialaccount_connections' %}" class="btn btn-primary mt-2">关联第三方账号</a>
         {% endifequal %}
 
     </div>

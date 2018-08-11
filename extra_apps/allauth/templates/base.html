@@ -1,40 +1,99 @@
 <!DOCTYPE html>
-<html>
-  <head>
+{% load i18n staticfiles %}
+{% load article_template_tags %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="{% static 'bootstrap-4.0.0/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/code.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/ioboom.css' %}">
     <title>{% block head_title %}{% endblock %}</title>
     {% block extra_head %}
     {% endblock %}
-  </head>
-  <body>
-    {% block body %}
+</head>
+<body>
+{% block body %}
+<nav class="navbar navbar-expand-md navbar-light bg-light mb-4 ">
+    <a class="navbar-brand mx-3" href="/">ioBoom</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
 
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-	{% for message in messages %}
-	<li>{{message}}</li>
-	{% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+            <a class="nav-item nav-link {% block active-1 %} {% endblock %} mx-3" href="/">主页 <span
+                    class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link mx-3 {% block active-2 %} {% endblock %}"
+               href="{% url 'article:all_articles' %}">全部文章</a>
+            <a class="nav-item nav-link mx-3 {% block active-3 %} {% endblock %}"
+               href="{% url 'article:all_tags' %}">分类</a>
+            {#            <a class="nav-item nav-link mx-3 {% block active-4%} {% endblock %}" href="{% url 'about_me' %}">关于我</a>#}
+        </div>
+        <div class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <a class="nav-item nav-link mx-3" href="/admin">后台</a>
+                {% endif %}
+                <a class="nav-item nav-link mx-3" href="{% url 'profile' user.id %}">{{ user.username }}的资料</a>
+                <a class="nav-item nav-link mx-3" href="{% url 'account_logout' %}">注销</a>
+            {% else %}
+                <a class="nav-item nav-link mx-3 navbar-right" href="{% url 'account_login' %}">登录</a>
+            {% endif %}
 
-    <div>
-      <strong>Menu:</strong>
-      <ul>
-	{% if user.is_authenticated %}
-	<li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-	<li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-	{% else %}
-	<li><a href="{% url 'account_login' %}">Sign In</a></li>
-	<li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-	{% endif %}
-      </ul>
+        </div>
     </div>
-    {% block content %}
-    {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+        {% if messages %}
+                {% for message in messages %}
+                    <div class=" alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+{#            <div>#}
+{#              <strong>你还可以:</strong>#}
+{#              <ul>#}
+{#            {% if user.is_authenticated %}#}
+{#            <li><a href="{% url 'account_email' %}">修改e-mail</a></li>#}
+{#            <li><a href="{% url 'account_logout' %}">注销</a></li>#}
+{#            {% else %}#}
+{#            <li><a href="{% url 'account_login' %}">登录</a></li>#}
+{#            <li><a href="{% url 'account_signup' %}">注册</a></li>#}
+{#            {% endif %}#}
+{#              </ul>#}
+{#            </div>#}
+        </div>
+        <div class="col-lg-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_body %}{% endblock %}
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'bootstrap-4.0.0/js/bootstrap.js' %}"></script>
+{% block scripts %}
+{% endblock %}
+</body>
 </html>
+
+

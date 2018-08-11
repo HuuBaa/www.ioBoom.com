@@ -136,6 +136,7 @@ class DefaultAccountAdapter(object):
         msg = self.render_mail(template_prefix, email, context)
         msg.send()
 
+
     def get_login_redirect_url(self, request):
         """
         Returns the default URL to redirect to after logging in.  Note
@@ -439,9 +440,16 @@ class DefaultAccountAdapter(object):
             email_template = 'account/email/email_confirmation_signup'
         else:
             email_template = 'account/email/email_confirmation'
-        self.send_mail(email_template,
+        try:
+            self.send_mail(email_template,
                        emailconfirmation.email_address.email,
                        ctx)
+            print("e-mail发送成功")
+        except Exception:
+            #messages.add_message(request,messages.WARNING,'验证邮件发送失败')
+            #捕获邮件发送错误，不提示用户
+            print("e-mail发送出错")
+            pass
 
     def respond_user_inactive(self, request, user):
         return HttpResponseRedirect(

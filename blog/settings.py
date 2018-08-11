@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'article.apps.ArticleConfig',
 
+    'widget_tweaks',
     'rest_framework',
     'xadmin',
     'crispy_forms',
@@ -150,9 +151,9 @@ SITE_ID = 2
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 LOGIN_REDIRECT_URL='/'
-
-
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS=False
+# ACCOUNT_EMAIL_VERIFICATION='none'
+ACCOUNT_ADAPTER = 'article.adapter.MyAccountAdapter'
 
 REST_FRAMEWORK = {
     # 权限认证

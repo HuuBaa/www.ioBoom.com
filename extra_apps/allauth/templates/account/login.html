@@ -4,43 +4,56 @@
 {% load account socialaccount %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
-
+{% block extra_head %}
+    <style>
+    .github-login:visited{
+        color: black;
+    }
+    </style>
+{% endblock %}
 {% block content %}
 
 <h1>{% trans "Sign In" %}</h1>
+    <p>没有账号？<a href="{{ signup_url }}">点我注册</a></p>
 
-{% get_providers as socialaccount_providers %}
-
-{% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
-<div class="socialaccount_ballot">
-
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
-
-  <div class="login-or">{% trans 'or' %}</div>
-
+{% if form.non_field_errors %}
+<div class="alert alert-danger alert-dismissible fade show pl-0" role="alert">
+    <ul class="my-0">
+        {{ form.non_field_errors|unordered_list }}
+    </ul>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}
 
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+
+  <div class="form-group">
+      <input type="text" name="login" placeholder="用户名或e-mail" autofocus="autofocus" class="form-control" required id="id_login" />
+  </div>
+  <div class="form-group">
+      <input type="password" name="password" placeholder="密码" class="form-control" required id="id_password" />
+  </div>
+  <div class="form-group">
+      <label for="id_remember"><input type="checkbox" name="remember" id="id_remember" /> 记住我</label>
+      <button class="primaryAction  btn btn-info float-right" type="submit">{% trans "Sign In" %}</button>
+  </div>
+
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
 
+  <p><a class="button secondaryAction mb-1 " href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></p>
+    <p></p>
+
+</form>
+    <hr>
+    <p class="text-muted text-center">快速登录</p>
+    <p class="text-center">
+        <a href="/accounts/github/login/?process=login" title="Github" class="github-login"><i class="fa fa-github fa-3x"></i></a>
+    </p>
+
+{% include "socialaccount/snippets/login_extra.html" %}
 {% endblock %}

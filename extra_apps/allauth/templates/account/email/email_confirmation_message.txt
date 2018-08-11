@@ -1,8 +1,8 @@
 {% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello from {{ site_name }}!
+你接收到这封邮件是因为用户{{ user_display }}提供了您的邮箱作为账户关联邮箱地址。
+为了验证，请点击：
 
-You're receiving this e-mail because user {{ user_display }} has given yours as an e-mail address to connect their account.
-
-To confirm this is correct, go to {{ activate_url }}
+{{ activate_url }}
 {% endblocktrans %}{% endautoescape %}
 {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you from {{ site_name }}!
 {{ site_domain }}{% endblocktrans %}

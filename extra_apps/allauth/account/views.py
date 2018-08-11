@@ -428,16 +428,16 @@ class EmailView(AjaxCapableProcessFormViewMixin, FormView):
                 user=request.user,
                 email=email,
             )
+            email_address.send_confirmation(request)
             get_adapter(request).add_message(
                 request,
                 messages.INFO,
                 'account/messages/'
                 'email_confirmation_sent.txt',
                 {'email': email})
-            email_address.send_confirmation(request)
             return HttpResponseRedirect(self.get_success_url())
-        except EmailAddress.DoesNotExist:
-            pass
+        except Exception:
+            messages.add_message(request,messages.WARNING,'邮件发送失败')
 
     def _action_remove(self, request, *args, **kwargs):
         email = request.POST["email"]
@@ -449,7 +449,7 @@ class EmailView(AjaxCapableProcessFormViewMixin, FormView):
             if email_address.primary:
                 get_adapter(request).add_message(
                     request,
-                    messages.ERROR,
+                    messages.WARNING,
                     'account/messages/'
                     'cannot_delete_primary_email.txt',
                     {"email": email})
@@ -484,7 +484,7 @@ class EmailView(AjaxCapableProcessFormViewMixin, FormView):
                                                 verified=True).exists():
                 get_adapter(request).add_message(
                     request,
-                    messages.ERROR,
+                    messages.WARNING,
                     'account/messages/'
                     'unverified_primary_email.txt')
             else:
