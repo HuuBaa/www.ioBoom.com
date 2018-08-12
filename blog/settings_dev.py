@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.weibo',
-    'allauth.socialaccount.providers.github'
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.qq',
 ]
 
 PAGINATION_SETTINGS = {
