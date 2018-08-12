@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" autoUpload="Always" serverName="blog">
     <serverData>
       <paths name="api">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="" local="$PROJECT_DIR$" web="/" />
           </mappings>
+        </serverdata>
+      </paths>
+      <paths name="blog">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/srv/blog" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/media" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="cdn">
@@ -31,5 +41,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

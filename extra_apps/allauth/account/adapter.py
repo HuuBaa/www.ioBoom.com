@@ -447,7 +447,7 @@ class DefaultAccountAdapter(object):
             print("e-mail发送成功")
         except Exception:
             #messages.add_message(request,messages.WARNING,'验证邮件发送失败')
-            #捕获邮件发送错误，不提示用户
+            #捕获邮件发送错误，但不提示用户，防止出现500错误
             print("e-mail发送出错")
             pass
 

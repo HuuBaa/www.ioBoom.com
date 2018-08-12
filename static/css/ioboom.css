@@ -3,12 +3,6 @@ body {
     background-color: #eee;
 }
 
-/*users模板*/
-#form-register, #form-reset, #form-reset-confirm, #form-change-pass {
-    max-width:350px;
-    padding: 15px;
-    margin: 0 auto;
-}
 /*sidebar*/
 #latest_articles li a:hover {
     color: goldenrod;
@@ -19,7 +13,6 @@ body {
     color: goldenrod;
     text-decoration: none;
 }
-
 
 /* all_tags */
 #tags li a:hover {

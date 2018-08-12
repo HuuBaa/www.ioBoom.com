@@ -19,6 +19,7 @@ from rest_framework.documentation import include_docs_urls
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 from article.views import IndexView,UserProfileView,UserProfileEditView
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path('article/',include('article.urls')),
     path('accounts/profile/<int:user_id>/', UserProfileView.as_view(), name='profile'),
     path('accounts/profile/edit/', UserProfileEditView.as_view(), name='profile_edit'),
+    path('me/',TemplateView.as_view(template_name="article/about_me.html"),name="about_me")
 ]
 
 if settings.DEBUG:

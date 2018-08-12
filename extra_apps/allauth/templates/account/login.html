@@ -9,6 +9,12 @@
     .github-login:visited{
         color: black;
     }
+    .weibo-login{
+        color: orangered;
+    }
+    .weibo-login:visited{
+        color: orangered;
+    }
     </style>
 {% endblock %}
 {% block content %}
@@ -52,7 +58,10 @@
     <hr>
     <p class="text-muted text-center">快速登录</p>
     <p class="text-center">
+
+        <a href="/accounts/weibo/login/?process=login" title="微博登录" class="weibo-login mr-4"><i class="fa fa-weibo fa-3x"></i></a>
         <a href="/accounts/github/login/?process=login" title="Github" class="github-login"><i class="fa fa-github fa-3x"></i></a>
+
     </p>
 
 {% include "socialaccount/snippets/login_extra.html" %}

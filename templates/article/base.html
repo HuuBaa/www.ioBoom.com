@@ -34,7 +34,7 @@
                href="{% url 'article:all_articles' %}">全部文章</a>
             <a class="nav-item nav-link mx-3 {% block active-3 %} {% endblock %}"
                href="{% url 'article:all_tags' %}">分类</a>
-            {#            <a class="nav-item nav-link mx-3 {% block active-4%} {% endblock %}" href="{% url 'about_me' %}">关于我</a>#}
+            <a class="nav-item nav-link mx-3 {% block active-4%} {% endblock %}" href="{% url 'about_me' %}">关于我</a>
         </div>
         <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}

@@ -40,33 +40,26 @@
     <form action="{%  url 'article:article_comment' article.id %}" method="post">
         <h4>发表评论</h4>
         <hr>
-
         {% csrf_token %}
         <div class="form-group">
             <textarea class="form-control" name="content" rows="3" required maxlength="128"></textarea>
         </div>
         <div class="form-group text-right">
-
             <button class="btn btn-info " type="submit">
                 发表评论 <i class="fa fa-comment-o"></i>
             </button>
         </div>
-
     </form>
-
     {% else %}
     <div class="card pt-2 pb-1">
         <h5 class=text-center><a href="{% url 'account_login' %}?next={{request.path}}">登录</a> 后可以发表评论</h5>
     </div>
-
     {% endif %}
 </div>
 
-
 <div class="card rounded-0 border-0 mt-3">
-    <h5 class="pt-4 pb-0 pl-4">{{comments.count}}条评论</h5>
+    <h5 class="pt-4 pb-0 pl-4">{{article.get_comment_count}}条评论</h5>
     <hr>
-
     {% if comments %}
     {% for c in comments %}
     <div class="media  mt-1 px-3 ">

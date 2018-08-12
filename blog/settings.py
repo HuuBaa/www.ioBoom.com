@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    #'allauth.socialaccount.providers.weibo',
+    'allauth.socialaccount.providers.weibo',
     'allauth.socialaccount.providers.github'
 ]
 
@@ -146,7 +146,7 @@ AUTHENTICATION_BACKENDS=(
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 2
+SITE_ID = 3
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True

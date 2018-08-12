@@ -2,54 +2,42 @@
 {% load article_template_tags %}
 
 {% for hidden_field in form.hidden_fields %}
-  {{ hidden_field }}
+    {{ hidden_field }}
 {% endfor %}
 
 {% if form.non_field_errors %}
-<div class="alert alert-danger alert-dismissible fade show pl-0" role="alert">
-    <ul class="my-0">
-        {{ form.non_field_errors|unordered_list }}
-    </ul>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+    <div class="alert alert-danger alert-dismissible fade show pl-0" role="alert">
+        <ul class="my-0">
+            {{ form.non_field_errors|unordered_list }}
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 
 {% endif %}
 
 {% for field in form.visible_fields %}
-  <div class="form-group">
-
-    {% if form.is_bound %}
-      {% if field.errors %}
-        {% render_field field class="form-control is-invalid" %}
-
-        <div class="pl-0 alert alert-danger alert-dismissible fade show" role="alert">
-            <ul class="my-0">
-            {{ field.errors|unordered_list }}
-            </ul>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-      {% else %}
-         {% if field|is_checkbox %}
-            {{ field.label_tag }} {{ field }}
-        {% else %}
-             {% render_field field class="form-control" %}
-        {% endif %}
-      {% endif %}
-    {% else %}
+    <div class="form-group">
+        {#      {% render_field field.label_tag %}#}
+        <label for="id_{{ field.name }}">{{ field.label }}</label>
         {% if field|is_checkbox %}
             {{ field.label_tag }} {{ field }}
         {% else %}
-             {% render_field field class="form-control" %}
+            {% render_field field class="form-control" %}
         {% endif %}
-    {% endif %}
-
-    {% if field.help_text %}
-      <small class="form-text text-muted">{{ field.help_text }}</small>
-    {% endif %}
-  </div>
+        {% if field.errors %}
+            <div class="pl-0 alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="my-0">
+                    {{ field.errors|unordered_list }}
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+    </div>
 {% endfor %}
