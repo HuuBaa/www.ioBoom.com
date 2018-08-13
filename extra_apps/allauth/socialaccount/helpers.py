@@ -103,7 +103,7 @@ def _add_social_account(request, sociallogin):
             # is not supported. Issue is that one cannot simply
             # remove the social account from the other user, as
             # that may render the account unusable.
-            level = messages.ERROR
+            level = messages.WARNING
             message = 'socialaccount/messages/account_connected_other.txt'
         else:
             # This account is already connected -- we give the opportunity

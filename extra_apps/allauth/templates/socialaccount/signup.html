@@ -12,9 +12,9 @@
 
 <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+  {% include 'account/snippets/bs4_form.html' with form=form %}
   {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" class="btn btn-info">
   {% endif %}
   <button type="submit">{% trans "Sign Up" %} &raquo;</button>
 </form>

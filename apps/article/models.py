@@ -3,11 +3,25 @@ from datetime import datetime
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+
+from django.contrib.auth.validators import UnicodeUsernameValidator
 
 class UserProfile(AbstractUser):
     """
     自定义扩展用户
     """
+    username_validator = UnicodeUsernameValidator()
+    username = models.CharField(
+        _('username'),
+        max_length=20,
+        unique=True,
+        help_text=_('Required. 20 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        validators=[username_validator],
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
     email = models.EmailField(blank=True, null=True,verbose_name="电子邮箱",help_text="电子邮箱")
     avatar = models.ImageField(blank=True, null=True,upload_to="avatar/",default="avatar/default.png",verbose_name="头像",help_text="头像")
     age = models.IntegerField(blank=True, null=True,verbose_name="年龄",help_text="年龄")

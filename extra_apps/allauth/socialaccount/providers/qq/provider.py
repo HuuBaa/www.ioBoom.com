@@ -23,7 +23,7 @@ class QQProvider(OAuth2Provider):
         return data['openid']
 
     def extract_common_fields(self, data):
-        return dict(username=data.get('nickname'),
+        return dict(username='qq用户_'+data.get('nickname'),
                     name=data.get('name'))
 
 

@@ -6,24 +6,31 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 {% block extra_head %}
     <style>
-        .github-login:visited {
+        .github-login:visited,.github-login:hover {
             color: black;
+            text-decoration: none;
         }
 
-        .weibo-login {
+        .weibo-login,.weibo-login:visited,.weibo-login:hover {
             color: orangered;
+            text-decoration: none;
         }
 
-        .weibo-login:visited {
-            color: orangered;
+
+        .qq-login,.qq-login:visited,.qq-login:hover{
+            text-decoration: none;
         }
+        .qq-login img{
+            position: relative;
+            top: -7px;
+        }
+
     </style>
 {% endblock %}
 {% block content %}
 
     <h1>{% trans "Sign In" %}</h1>
-    <p>没有账号？<a href="{{ signup_url }}">点我注册</a></p>
-
+    <br>
     {% if form.non_field_errors %}
         <div class="alert alert-danger alert-dismissible fade show pl-0" role="alert">
             <ul class="my-0">
@@ -56,15 +63,17 @@
 
         <p><a class="button secondaryAction mb-1 "
               href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></p>
-        <p></p>
+        <p>没有账号？<a href="{{ signup_url }}">注册</a>，或者用第三方账号登录</p>
 
     </form>
     <hr>
-    <p class="text-muted text-center">快速登录</p>
+    <p class="text-muted text-center">第三方账号登录</p>
     <p class="text-center">
-        <a href="/accounts/qq/login/?process=login" title="QQ登录" class="qq-login mr-3"><i
-                class="fa fa-qq fa-2x"></i></a>
-        <a href="/accounts/weibo/login/?process=login" title="微博登录" class="weibo-login mr-3"><i
+        <a href="/accounts/qq/login/?process=login" title="QQ登录" class="qq-login mr-5" >
+            <img src="{{ MEDIA_URL }}qq.png"  width="32" href="/accounts/qq/login/?process=login">
+
+        </a>
+        <a href="/accounts/weibo/login/?process=login" title="微博登录" class="weibo-login mr-5"><i
                 class="fa fa-weibo fa-2x"></i></a>
 
         <a href="/accounts/github/login/?process=login" title="Github" class="github-login"><i
