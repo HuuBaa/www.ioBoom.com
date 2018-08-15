@@ -39,7 +39,7 @@
         <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
                 {% if user.is_superuser %}
-                    <a class="nav-item nav-link mx-3" href="/admin">后台</a>
+                    <a class="nav-item nav-link mx-3" href="/xadmin">后台</a>
                 {% endif %}
                 <a class="nav-item nav-link mx-3" href="{% url 'profile' user.id %}">{{ user.username }}的资料</a>
                 <a class="nav-item nav-link mx-3" href="{% url 'account_logout' %}">注销</a>
