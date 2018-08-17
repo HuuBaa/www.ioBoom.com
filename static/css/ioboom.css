@@ -8,6 +8,8 @@
     }
 }
 
+
+
 body {
     background-color: #eee;
 }
@@ -34,6 +36,11 @@ body {
     color: goldenrod;
     text-decoration: none;
 }
+
+#article-body img{
+    width: 100%;
+}
+
 
 /* index */
 .article-title:hover {
