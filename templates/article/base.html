@@ -4,10 +4,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{{ title|default:"Huu的博客" }}{% endblock %}</title>
+    <title>{% block title %}{{ title|default:"ioBoom.com,一个Django2.0搭建的博客" }}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+
+    <meta name="description" content="ioBoom.com,一个Django2.0搭建的博客，博主是自学的Python，做这个网站用于个人日常学习编程时分享心得、记录知识">
+    <meta name="keywords" content="Python学习,Django,web开发,个人博客">
+    <meta name="author" content="博主是自学的Python，做这个网站用于个人日常学习编程时分享心得、记录知识">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="{% static 'bootstrap-4.0.0/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
@@ -19,7 +21,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light mb-4 ">
+<nav class="navbar navbar-expand-md navbar-light bg-light mb-lg-4 mb-2 ">
     <a class="navbar-brand mx-3" href="/">ioBoom</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +36,8 @@
                href="{% url 'article:all_articles' %}">全部文章</a>
             <a class="nav-item nav-link mx-3 {% block active-3 %} {% endblock %}"
                href="{% url 'article:all_tags' %}">分类</a>
-            <a class="nav-item nav-link mx-3 {% block active-4%} {% endblock %}" href="{% url 'about_me' %}">关于我</a>
+            <a class="nav-item nav-link mx-3 {% block active-4%} {% endblock %}" href="{% url 'about_me' %}">关于</a>
+            <a class="nav-item nav-link mx-3" href="/api/v1">API接口</a>
         </div>
         <div class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
@@ -67,12 +70,12 @@
 
     </div>
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-9 sm-pd-5">
             {% block content %}
                 <p>default</p>
             {% endblock content %}
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 sm-pd-5">
             {% block sidebar %}
                 {% get_sidebar_tag %}
             {% endblock %}

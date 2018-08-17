@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-关于我
+关于
 {% endblock %}
 
 {% block active-4 %}
@@ -10,7 +10,47 @@ active
 {% endblock %}
 
 {% block content %}
-    <p>关于我的页面</p>
+    <h3>关于博主</h3>
+    <hr>
+    <ul>
+        <li>博主是自学的Python，做这个网站用于个人日常学习编程时分享心得、记录知识</li>
+        <li>Github地址：github.com/HuuBaa</li>
+        <li>可以邮箱联系我：ioboom@ioboom.com</li>
+    </ul>
+    <h3>网站基本功能</h3>
+    <hr>
+    <ul>
+        <li>完整的用户系统，支持邮箱验证、重置密码、修改密码等</li>
+        <li>除了本身用户系统外，支持QQ、微博、Github的第三方账户登录、绑定</li>
+        <li>文章评论系统，注册后可以自由进行评论</li>
+        <li>文章按标签分类</li>
+        <li>实现了Restful Api</li>
+    </ul>
+
+    <h3>关于网站</h3>
+    <hr>
+    <ul>
+        <li>本网站使用阿里云的ESC云服务器</li>
+        <li>申请了SSL证书，支持https</li>
+        <li>后台用supervisor管理网站进程</li>
+        <li>部署使用Nginx + gunicorn的组合</li>
+        <li>网站后端使用了Python的Django框架，具体看下面Django相关的说明</li>
+        <li>网站前端使用了Bootstrap4进行响应式设计</li>
+    </ul>
+
+    <h3>关于Django</h3>
+    <hr>
+    <ul>
+        <li>Python3.6.1+Django2.0.7</li>
+        <li>使用django-xadmin做后台管理页面的美化</li>
+        <li>使用django-allauth做第三方登录并自己添加了QQ第三方登录的支持</li>
+        <li>使用django-restframework 实现 Restful Api 接口</li>
+    </ul>
+    <h3>数据库</h3>
+    <hr>
+    <ul>
+        <li>使用MySQL数据库进行数据的存储</li>
+    </ul>
 {% endblock %}
 
 {% block scripts %}

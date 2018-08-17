@@ -2,12 +2,11 @@
 
 <ul class="list-unstyled">
     {% for article in articles %}
-    <li class="media px-3 py-3 mb-4 shadow" style="background-color: white">
-        <img class="align-self-center mr-3 d-none d-lg-block" src="{{MEDIA_URL}}{{article.picture}}" width="180"
-             alt="Generic placeholder image">
+    <li class="media px-3 py-3 mb-2  mb-lg-4 shadow article-li" style="background-color: white">
+        <img class="align-self-center mr-3 d-none d-md-block" src="{{MEDIA_URL}}{{article.picture}}"
+             alt="Generic placeholder image" width="125">
 
         <div class="media-body" style="word-break: break-all">
-
             <span><i class="fa fa-user" aria-hidden="true"></i> &nbsp;{{article.author.username}}</span>
             &nbsp;
             <span class="small"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{article.post_time|date}}</span>
@@ -22,7 +21,7 @@
                 <h5 class="mt-0 mb-1 article-title">{{article.title}}</h5>
             </a>
 
-            <p class="mb-0 text-muted">{{article.summary}}</p>
+            <p class="mb-0 text-muted article-summary">{{article.summary}}</p>
 
             <br>
 

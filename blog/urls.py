@@ -34,7 +34,7 @@ urlpatterns = [
     path('article/',include('article.urls')),
     path('accounts/profile/<int:user_id>/', UserProfileView.as_view(), name='profile'),
     path('accounts/profile/edit/', UserProfileEditView.as_view(), name='profile_edit'),
-    path('me/',TemplateView.as_view(template_name="article/about_me.html"),name="about_me")
+    path('about/',TemplateView.as_view(template_name="article/about_me.html"),name="about_me")
 ]
 
 if settings.DEBUG:
