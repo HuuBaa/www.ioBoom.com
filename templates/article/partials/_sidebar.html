@@ -1,6 +1,6 @@
 <div class="card w-100 mb-4">
     <div class="card-body">
-        <h6 class="card-title font-weight-bold">标签云</h6>
+        <h6 class="card-title font-weight-bold">标签</h6>
         <hr>
         {% for tag in tags_cloud %}
         <a href="{% url 'article:tag_articles' tag.slug %}"><span class="badge badge-pill badge-{{tag.cls_msg}} ">{{tag.chinese_name}}</span></a>
