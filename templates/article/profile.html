@@ -19,12 +19,12 @@
 
         <p>{{c_user.username}}</p>
         {% ifequal user c_user %}
-        <a href="{% url 'profile_edit' %}" class="btn btn-success">编辑个人资料</a>
+        <a href="{% url 'profile_edit' %}" class="btn btn-success btn-sm mt-1">编辑个人资料</a>
 
-        <a href="{% url 'account_change_password' %}" class="btn btn-primary mt-2">修改账户密码</a>
+        <a href="{% url 'account_change_password' %}" class="btn btn-primary mt-1 btn-sm">修改账户密码</a>
 
-        <a href="{% url 'account_email' %}" class="btn btn-primary mt-2">管理E-mail地址</a>
-        <a href="{% url 'socialaccount_connections' %}" class="btn btn-primary mt-2">关联第三方账号</a>
+        <a href="{% url 'account_email' %}" class="btn btn-primary mt-1 btn-sm">管理E-mail地址</a>
+        <a href="{% url 'socialaccount_connections' %}" class="btn btn-primary mt-1 btn-sm">关联第三方账号</a>
         {% endifequal %}
 
     </div>

@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <title>{% block title %}{{ title|default:"ioBoom.com,一个Django2.0搭建的博客" }}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="description" content="ioBoom.com,一个Django2.0搭建的博客，博主是自学的Python，做这个网站用于个人日常学习编程时分享心得、记录知识">
     <meta name="keywords" content="Python,Django,web开发,个人博客,编程">
     <meta name="author" content="博主是自学的Python，做这个网站用于个人日常学习编程时分享心得、记录知识">
@@ -29,14 +28,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-
             <a class="nav-item nav-link {% block active-1 %} {% endblock %} mx-3" href="/">主页 <span
                     class="sr-only">(current)</span></a>
             <a class="nav-item nav-link mx-3 {% block active-2 %} {% endblock %}"
                href="{% url 'article:all_articles' %}">全部文章</a>
             <a class="nav-item nav-link mx-3 {% block active-3 %} {% endblock %}"
                href="{% url 'article:all_tags' %}">分类</a>
-            <a class="nav-item nav-link mx-3 {% block active-4%} {% endblock %}" href="{% url 'about_me' %}">关于</a>
+            <a class="nav-item nav-link mx-3 {% block active-4 %} {% endblock %}" href="{% url 'about_me' %}">关于</a>
             <a class="nav-item nav-link mx-3" href="/api/v1">API接口</a>
         </div>
         <div class="navbar-nav ml-auto">
@@ -49,14 +47,12 @@
             {% else %}
                 <a class="nav-item nav-link mx-3 navbar-right" href="{% url 'account_login' %}">登录</a>
             {% endif %}
-
         </div>
     </div>
-
 </nav>
 <div class="container">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12 sm-pd-5">
             {% if messages %}
                 {% for message in messages %}
                     <div class=" alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show">{{ message }}
@@ -67,7 +63,6 @@
                 {% endfor %}
             {% endif %}
         </div>
-
     </div>
     <div class="row">
         <div class="col-lg-9 sm-pd-5">
@@ -80,7 +75,6 @@
                 {% get_sidebar_tag %}
             {% endblock %}
         </div>
-
     </div>
     <hr>
 </div>
