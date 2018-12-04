@@ -20,23 +20,22 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from article.views import IndexView,UserProfileView,UserProfileEditView
+from article.views import IndexView, UserProfileView, UserProfileEditView
 
 urlpatterns = [
-    path('admin/',admin.site.urls),
+    path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('doc/',include_docs_urls(title="Huu Api")),
+    path('doc/', include_docs_urls(title="Huu Api")),
     path('accounts/', include('allauth.urls')),
     path('api/', include('api.urls')),
 
-    path('',IndexView.as_view(),name='index'),
-    path('article/',include('article.urls')),
+    path('', IndexView.as_view(), name='index'),
+    path('article/', include('article.urls')),
     path('accounts/profile/<int:user_id>/', UserProfileView.as_view(), name='profile'),
     path('accounts/profile/edit/', UserProfileEditView.as_view(), name='profile_edit'),
-    path('about/',TemplateView.as_view(template_name="article/about_me.html"),name="about_me")
+    path('about/', TemplateView.as_view(template_name="article/about_me.html"), name="about_me")
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
