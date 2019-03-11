@@ -163,6 +163,5 @@ class UserProfileView(View):
     def get(self, request, user_id):
         user_profile = get_object_or_404(User, id=user_id)
         return render(request, 'article/profile.html', {
-            'c_user': user_profile,
-            'userprofile': user_profile
+            'c_user': user_profile
         })
