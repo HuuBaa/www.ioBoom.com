@@ -11,11 +11,14 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os, sys
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+load_dotenv(os.path.join(BASE_DIR,".env"))
 
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 sys.path.insert(0, os.path.join(BASE_DIR,'extra_apps'))
@@ -25,7 +28,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9rk04-jbq^e1n*23@dqh3934p@9q02o1^)d229*h*erw(8c%lw'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -92,14 +95,16 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+MYSQL_NAME=os.environ.get('MYSQL_NAME')
+MYSQL_USER=os.environ.get('MYSQL_USER')
 MYSQL_PASSWORD=os.environ.get('MYSQL_PASSWORD')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': '127.0.0.1',
-        'NAME': 'blog',
-        'USER': 'root',
+        'NAME': MYSQL_NAME,
+        'USER': MYSQL_USER,
         'PASSWORD':MYSQL_PASSWORD ,
         'PORT': '3306',
          'OPTIONS':{'init_command':'SET default_storage_engine=INNODB;'}
