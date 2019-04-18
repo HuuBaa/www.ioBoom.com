@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 
@@ -32,45 +32,28 @@ class CustomBackend(ModelBackend):
             return None
 
 
-class IndexView(View):
-    def get(self, request):
-        articles = Article.objects.order_by("-post_time").all()
-        return render(request, 'article/index.html', {'articles': articles})
+class IndexView(ListView):
+    queryset = Article.objects.order_by("-post_time").all()[:5]
+    context_object_name = "articles"
+    template_name = "article/index.html"
 
 
-class AllArticleView(View):
-    def get(self, request):
-        all_articles_list = Article.objects.order_by('-post_time').all()
-        current_page = request.GET.get('page', 1)
-        paginator = Paginator(all_articles_list, 5, request=request)
-        try:
-            all_articles_page = paginator.page(current_page)
-        except PageNotAnInteger:
-            all_articles_page = paginator.page(1)
-        res_dict = {
-            'articles': all_articles_page.object_list,
-            'page': all_articles_page,
-        }
-        return render(request, 'article/all_articles.html', res_dict)
+class AllArticleView(ListView):
+    queryset = Article.objects.order_by('-post_time').all()
+    paginate_by = 5
+    context_object_name = "articles"
+    template_name = "article/all_articles.html"
 
 
-class TagArticlesView(View):
-    def get(self, request, tag_slug):
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        if tag is not None:
-            tag_articles_list = tag.articles.order_by('-post_time').all()
-            current_page = request.GET.get('page', 1)
-            paginator = Paginator(tag_articles_list, 5, request=request)
-            try:
-                tag_articles_page = paginator.page(current_page)
-            except PageNotAnInteger:
-                tag_articles_page = paginator.page(1)
-            con_dict = {
-                'tag': tag,
-                'articles': tag_articles_page.object_list,
-                'page': tag_articles_page
-            }
-            return render(request, 'article/tag_articles.html', con_dict)
+
+class TagArticlesView(ListView):
+    template_name = "article/tag_articles.html"
+    paginate_by = 5
+    context_object_name = "articles"
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, slug=self.kwargs.get("tag_slug"))
+        return tag.articles.order_by('-post_time').all()
 
 
 class AllTagsView(ListView):
@@ -78,6 +61,12 @@ class AllTagsView(ListView):
     template_name = "article/all_tags.html"
     model = Tag
     ordering = "slug"
+
+
+class UserProfileView(DetailView):
+    model = User
+    template_name = "article/profile.html"
+    context_object_name = "c_user"
 
 
 def visits_handler(request, article):
@@ -159,9 +148,4 @@ class UserProfileEditView(LoginRequiredMixin, View):
             return render(request, 'article/profile_edit.html', {'form': form})
 
 
-class UserProfileView(View):
-    def get(self, request, user_id):
-        user_profile = get_object_or_404(User, id=user_id)
-        return render(request, 'article/profile.html', {
-            'c_user': user_profile
-        })
+

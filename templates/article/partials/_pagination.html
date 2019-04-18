@@ -1,8 +1,8 @@
 <nav aria-label="...">
     <ul class="pagination justify-content-center">
-        {% if page.has_previous %}
+        {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?{{ page.previous_page_number.querystring }}"
+            <a class="page-link" href="{{ request.path }}?page={{  page_obj.previous_page_number }}"
                tabindex="-1">上一页</a>
         </li>
         {% else %}
@@ -11,9 +11,9 @@
         </li>
         {% endif %}
 
-        {% for p in page.pages %}
+        {% for p in page_obj.paginator.page_range %}
             {%  if p %}
-                {% ifequal p  page.number %}
+                {% ifequal p  page_obj.number %}
 
                 <li class="page-item active">
                       <span class="page-link">
@@ -22,7 +22,7 @@
                       </span>
                 </li>
                 {% else %}
-                <li class="page-item"><a class="page-link" href="{{page_url}}?page={{p}}">{{p}}</a></li>
+                <li class="page-item"><a class="page-link" href="{{ request.path }}?page={{p}}">{{p}}</a></li>
                 {% endifequal %}
             {% else %}
                 <li class="page-item disabled">
@@ -33,9 +33,9 @@
         {% endfor %}
 
 
-        {% if page.has_next %}
+        {% if page_obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?{{ page.next_page_number.querystring }}">下一页</a>
+            <a class="page-link" href="{{ request.path }}?page={{  page_obj.next_page_number }}">下一页</a>
         </li>
         {% else %}
         <li class="page-item disabled">

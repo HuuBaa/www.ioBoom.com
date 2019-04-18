@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('', IndexView.as_view(), name='index'),
     path('article/', include('article.urls')),
-    path('accounts/profile/<int:user_id>/', UserProfileView.as_view(), name='profile'),
+    path('accounts/profile/<int:pk>/', UserProfileView.as_view(), name='profile'),
     path('accounts/profile/edit/', UserProfileEditView.as_view(), name='profile_edit'),
     path('about/', TemplateView.as_view(template_name="article/about_me.html"), name="about_me")
 ]
