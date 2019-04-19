@@ -8,7 +8,7 @@ app_name='article'
 
 urlpatterns=[
     path('all/',AllArticleView.as_view(),name='all_articles'),
-    path('<int:article_id>/',ArticleDetailView.as_view(),name='article_detail'),
+    path('<int:pk>/',ArticleDetailView.as_view(),name='article_detail'),
     path('comment/<int:article_id>)/',CommentView.as_view(),name='article_comment'),
     path('subcomment/<int:article_id>/',SubCommentView.as_view(),name='article_sub_comment'),
     path('tag/<slug:tag_slug>/',TagArticlesView.as_view(),name='tag_articles'),

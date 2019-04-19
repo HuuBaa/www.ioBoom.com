@@ -5,7 +5,7 @@ from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 
-from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+# from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 import markdown
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
@@ -86,24 +86,37 @@ def visits_handler(request, article):
     request.session['article_{0}_last_view'.format(article.id)] = str(last_visit_time)  # 更新session
 
 
-class ArticleDetailView(View):
-    def get(self, request, article_id):
-        article = get_object_or_404(Article, id=article_id)
-        visits_handler(request, article)
-        md = markdown.Markdown(extensions=[
-            'markdown.extensions.extra',
-            'markdown.extensions.codehilite',
-            TocExtension(slugify=slugify),
-        ])
-        article.content = md.convert(article.content)
-        comments = article.comments.order_by('post_time').all()
-        con_dict = {
-            'article': article,
-            'comments': comments,
-            'toc': md.toc
-        }
-        return render(request, 'article/article_detail.html', con_dict)
 
+class ArticleDetailView(DetailView):
+    template_name = "article/article_detail.html"
+    context_object_name = "article"
+    model = Article
+
+    def get(self, request, *args, **kwargs):
+        res=super(ArticleDetailView,self).get(request, *args, **kwargs)
+        visits_handler(request, self.object)
+        return res
+
+    def get_object(self, queryset=None):
+        article=super(ArticleDetailView,self).get_object(queryset=None)
+        md = markdown.Markdown(extensions=[
+                    'markdown.extensions.extra',
+                    'markdown.extensions.codehilite',
+                    TocExtension(slugify=slugify),
+                ])
+        article.content = md.convert(article.content)
+        article.toc=md.toc
+        return article
+
+    def get_context_data(self, **kwargs):
+        context_data=super(ArticleDetailView,self).get_context_data(**kwargs)
+        comments = self.object.comments.order_by('post_time').all()
+        context_data.update(
+            {
+                "comments":comments
+            }
+        )
+        return context_data
 
 class CommentView(LoginRequiredMixin, View):
     def post(self, request, article_id):
