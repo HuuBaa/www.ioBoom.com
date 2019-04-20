@@ -56,12 +56,12 @@
     {% endif %}
 </div>
 
-<div class="card rounded-0 border-0 mt-3">
+<div class="card rounded-0 border-0 mt-3" >
     <h5 class="pt-4 pb-0 pl-4">{{article.get_comment_count}}条评论</h5>
     <hr>
     {% if comments %}
     {% for c in comments %}
-    <div class="media  mt-1 px-3 ">
+    <div class="media  mt-1 px-3 " id="comment_{{ c.id }}">
         {% if c.author.avatar == "avatar/default.png" and c.author.get_avatar_url %}
         <img class="align-self-sm-start mr-3 rounded mt-1" src="{{c.author.get_avatar_url}}"
              width="48" height="48" alt="头像">
@@ -117,7 +117,7 @@
             <!--二级评论-->
             {% if c.sub_comments %}
             {% for sub_c in c.sub_comments.all %}
-            <div class="media  mt-1 px-3 ">
+            <div class="media  mt-1 px-3 " id="subcomment_{{ sub_c.id }}">
                 {% if sub_c.author.avatar == "avatar/default.png" and sub_c.author.get_avatar_url %}
                 <img class="align-self-sm-start mr-3 rounded mt-1"
                      src="{{sub_c.author.get_avatar_url}}"

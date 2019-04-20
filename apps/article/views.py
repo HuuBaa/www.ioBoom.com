@@ -125,7 +125,7 @@ class CommentView(LoginRequiredMixin, View):
         content = request.POST.get('content')
         c = Comment.objects.create(article=article, author=author, content=content)
         # 评论成功后刷新即可
-        return redirect(reverse('article:article_detail', args=[article_id, ]))
+        return redirect(reverse('article:article_detail', args=[article_id, ])+"#comment_%s"%c.id)
 
 
 class SubCommentView(LoginRequiredMixin, View):
@@ -140,7 +140,7 @@ class SubCommentView(LoginRequiredMixin, View):
         c = Subcomment.objects.create(article=article, author=author, content=content, reply_to=reply_to,
                                       parent_comment=parent_comment)
         # 评论成功后刷新即可
-        return redirect(reverse('article:article_detail', args=[article_id, ]))
+        return redirect(reverse('article:article_detail', args=[article_id, ])+"#subcomment_%s"%c.id)
 
 
 class UserProfileEditView(LoginRequiredMixin, View):
